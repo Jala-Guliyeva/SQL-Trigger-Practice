@@ -15,7 +15,7 @@ Id INT PRIMARY KEY IDENTITY,
 Name NVARCHAR(100)
 )
 
-CREATE TABLE Meals(
+CREATE TABLE Pizzas(
 Id INT PRIMARY KEY IDENTITY,
 Name NVARCHAR(100),
 Image NVARCHAR(500),
@@ -36,11 +36,14 @@ Big DECIMAL,
 
 )
 
-CREATE TABLE MealSize(
+CREATE TABLE PizzaSize(
 Id INT PRIMARY KEY IDENTITY,
-MealId INT FOREIGN KEY REFERENCES Meals(Id),
+PizzaId INT FOREIGN KEY REFERENCES Pizzas(Id),
 SizeId INT FOREIGN KEY REFERENCES Sizes(Id)
 )
+
+
+
 
 --1) Bir dənə DeletedSliders deyə table olacaq və bir dənə trigger yazacaqsız sliders  table-dan hər hansısa 
 --bir slidersilindiyi zaman slider table-dan silinəcək və gedib DeletedSliders table-na düşəcək.
@@ -63,4 +66,10 @@ BEGIN
 END
 
 --2) Sliders həmdə DeletedSliders-dakı dataları alt-alta şəkildə göstərən bir view yazırsız
+
+CREATE VIEW v_AllDeletedSliders
+AS
+Select DISTINCT
+	DeletedSliders.*
+FROM DeletedSliders
 

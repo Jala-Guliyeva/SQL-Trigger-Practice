@@ -44,26 +44,32 @@ SizeId INT FOREIGN KEY REFERENCES Sizes(Id)
 
 
 
-
 --1) Bir dənə DeletedSliders deyə table olacaq və bir dənə trigger yazacaqsız sliders  table-dan hər hansısa 
 --bir slidersilindiyi zaman slider table-dan silinəcək və gedib DeletedSliders table-na düşəcək.
 
 CREATE TABLE DeletedSliders(
-	Id INT PRIMARY KEY IDENTITY,
-	SliderId INT,
-	IsDeleted BIT DEFAULT 'false'
+	Id INT ,
+	Image NVARCHAR(100),
+	Catagories INT FOREIGN KEY REFERENCES Catagories(Id)
+	
 )
+ 
 
-CREATE TRIGGER SlidersInsteadDelete
+CREATE TRIGGER SlidersDelete
 ON DeletedSliders
-INSTEAD OF DELETE
+After  DELETE
 AS
 BEGIN
 	DECLARE @id INT
-	SELECT @id=Id FROM deleted
+	SELECT @id=Id  FROM deleted
+	INSERT INTO DeletedSliders
+	VALUES (@id)
 	
-	UPDATE DeletedSliders SET IsDeleted = 'true' WHERE Id=@id
 END
+DELETE FROM Sliders
+WHERE Id=2
+
+
 
 --2) Sliders həmdə DeletedSliders-dakı dataları alt-alta şəkildə göstərən bir view yazırsız
 

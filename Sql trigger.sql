@@ -75,7 +75,10 @@ WHERE Id=2
 
 CREATE VIEW v_AllDeletedSliders
 AS
-Select DISTINCT
-	DeletedSliders.*
-FROM DeletedSliders
+Select Sliders.Id, Sliders.Image,DeletedSliders.IsDeleted,DeletedSliders.SliderId
+from Sliders,DeletedSliders
+union
+all select Sliders.Id, Sliders.Image,DeletedSliders.IsDeleted,DeletedSliders.SliderId
+from Sliders,DeletedSliders
+	
 
